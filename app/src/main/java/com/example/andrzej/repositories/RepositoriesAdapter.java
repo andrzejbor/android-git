@@ -9,6 +9,10 @@ import android.widget.Toast;
 
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+
 /**
  * Created by Andrzej on 21.11.2016.
  */
@@ -18,7 +22,7 @@ import java.util.List;
 // - jak mają wyglądać (onCreateViewHolder) ?
 // - jakie dane mają zawierać (onBindViewHolder) ?
 // Jej metody nie są wołane bezpośrednio przez nas, tylko przez komponenty systemu !
-public class RepositoriesAdapter extends RecyclerView.Adapter<RepositoriesAdapter.RepositoryViewHolder>{
+public class RepositoriesAdapter extends RecyclerView.Adapter<RepositoriesAdapter.RepositoryViewHolder> {
     // Zmianna w ktorej trzymamy zbiór obiektów, które chcemy wyświetlić na ekranie w postaci listy.
     private List<GithubRepositories> mData;
     private RepositoryClickAction mClickListener;
@@ -70,22 +74,23 @@ public class RepositoriesAdapter extends RecyclerView.Adapter<RepositoriesAdapte
     // ViewHolder zapewnia nam możliwość wyszukiwania elementów wiersza na liście, tylko raz
     // podczas tworzenia widoku tego wiersza (onCreateViewHolder), tak żebyśmy nie musieli robić tego
     // za każdym razem w funkcji onBindViewHolder.
-    public class RepositoryViewHolder   extends RecyclerView.ViewHolder{
-
+    public class RepositoryViewHolder extends RecyclerView.ViewHolder {
+        @BindView(android.R.id.text1)
         TextView mLabel;
         GithubRepositories mRepositories;
 
         public RepositoryViewHolder(View itemView) {
             super(itemView);
-            mLabel = (TextView) itemView.findViewById(android.R.id.text1);
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    mClickListener.onClick(mRepositories);
-                }
-            });
+            ButterKnife.bind(this, itemView);
+
+        }
+
+        @OnClick
+        protected void onViewClick() {
+            mClickListener.onClick(mRepositories);
         }
     }
+
     //Ten interfejs definiuje nam sprsób powiadamiania zainteresowanych z zewnątrz o kliknięciach na wiersze
     //reprezentujące konkretne
     public interface RepositoryClickAction {
