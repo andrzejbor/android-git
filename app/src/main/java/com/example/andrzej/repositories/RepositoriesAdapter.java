@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -20,6 +21,11 @@ import java.util.List;
 public class RepositoriesAdapter extends RecyclerView.Adapter<RepositoriesAdapter.RepositoryViewHolder>{
     // Zmianna w ktorej trzymamy zbiór obiektów, które chcemy wyświetlić na ekranie w postaci listy.
     private List<GithubRepositories> mData;
+    private RepositoryClickAction mClickListener;
+
+    public void setmClickListener(RepositoryClickAction mClickListener) {
+        this.mClickListener = mClickListener;
+    }
 
     // W związku z tym, że mData jest prywatne - dodaliśmy metodę setData, pozwalającą na ustawienie
     // danych do wyświetlenia.
@@ -51,7 +57,7 @@ public class RepositoriesAdapter extends RecyclerView.Adapter<RepositoriesAdapte
 
         //2. Uzupełnij widok wiersza (parametr holder) danymi
         holder.mLabel.setText(repositories.getName());
-
+        holder.mRepositories = repositories;
     }
 
     // Mówi dla RecyclerView ile elementów ma zostać wyświetlone dla użytkownika na ekranie.
@@ -67,10 +73,23 @@ public class RepositoriesAdapter extends RecyclerView.Adapter<RepositoriesAdapte
     public class RepositoryViewHolder   extends RecyclerView.ViewHolder{
 
         TextView mLabel;
+        GithubRepositories mRepositories;
 
         public RepositoryViewHolder(View itemView) {
             super(itemView);
             mLabel = (TextView) itemView.findViewById(android.R.id.text1);
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mClickListener.onClick(mRepositories);
+                }
+            });
         }
     }
+    //Ten interfejs definiuje nam sprsób powiadamiania zainteresowanych z zewnątrz o kliknięciach na wiersze
+    //reprezentujące konkretne
+    public interface RepositoryClickAction {
+        void onClick(GithubRepositories repositories);
+    }
+
 }
