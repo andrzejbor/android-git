@@ -1,5 +1,7 @@
 package com.example.andrzej.repositories;
 
+import com.google.gson.annotations.SerializedName;
+
 /**
  * Created by Andrzej on 21.11.2016.
  */
@@ -7,6 +9,7 @@ package com.example.andrzej.repositories;
 public class GithubRepositories {
     private long id;
     private String name;
+    @SerializedName("html_url")
     private String htmlUrl;
 
     public long getId() {

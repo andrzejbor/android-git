@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.Collections;
 import java.util.List;
 
 import butterknife.BindView;
@@ -24,7 +25,7 @@ import butterknife.OnClick;
 // Jej metody nie są wołane bezpośrednio przez nas, tylko przez komponenty systemu !
 public class RepositoriesAdapter extends RecyclerView.Adapter<RepositoriesAdapter.RepositoryViewHolder> {
     // Zmianna w ktorej trzymamy zbiór obiektów, które chcemy wyświetlić na ekranie w postaci listy.
-    private List<GithubRepositories> mData;
+    private List<GithubRepositories> mData = Collections.emptyList();
     private RepositoryClickAction mClickListener;
 
     public void setmClickListener(RepositoryClickAction mClickListener) {
@@ -35,6 +36,7 @@ public class RepositoriesAdapter extends RecyclerView.Adapter<RepositoriesAdapte
     // danych do wyświetlenia.
     public void setmData(List<GithubRepositories> mData) {
         this.mData = mData;
+        notifyDataSetChanged();
     }
 
     // Ta funkcja ma za zadanie stworzyć obiekt widoku pojedyńczego wiersza, czyli odpowiedzieć
